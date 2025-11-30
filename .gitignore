@@ -32,7 +32,7 @@
 *.app
 
 # Folders
-Out/obj/*
+Out/*
 lib/*
 /DMALibrary/x64
 /.vs
