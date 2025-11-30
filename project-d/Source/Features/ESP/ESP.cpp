@@ -1,23 +1,44 @@
-#include <Pch.hpp>
+﻿#include <Pch.hpp>
 #include <SDK.hpp>
 #include "ESP.hpp"
 #include <string>
+#include <sstream>
+#include <iostream>
+
+void ESP::Update() {
+
+}
 
 void ESP::Render(ImDrawList* drawList) {
+    if (!sdk->c4Planted->m_bBombPlanted)
+        return;
 
-    // 0x3ECC
+    Vector3 bombPos = sdk->c4Planted->m_GameSceneNode.m_vecAbsOrigin;
 
-    auto localPlayerController = mem.Read<uintptr_t>(Globals::ClientBase + cs2_dumper::offsets::client_dll::dwLocalPlayerController);
-    localPlayerController = mem.Read<uintptr_t>(localPlayerController);
+    Vector2 screenPos;
+    if (!sdk->WorldToScreen(bombPos, screenPos))
+        return;
 
-	int health = mem.Read<bool>(localPlayerController + 0x904);
+    char buffer[256];
+
+    const char* siteName = "Unknown";
+    if (sdk->c4Planted->m_iBombSite == 0)
+        siteName = "A";
+    else if (sdk->c4Planted->m_iBombSite == 1)
+        siteName = "B";
+
+    sprintf(buffer,
+        "Bomb Planted\nSite: %s\nPos: %.1f %.1f %.1f",
+        siteName,
+        bombPos.x, bombPos.y, bombPos.z
+    );
 
     Renderer::Text(
         drawList,
-        ScreenCenter.x,
-        ScreenCenter.y,
-        0.f, 0.f,
-        std::to_string(health),
-        ImVec4(255, 255, 255, 255)
+        screenPos.x,
+        screenPos.y,
+        0.0f, 0.0f,
+        buffer,
+        ImVec4(1.0f, 0.2f, 0.2f, 1.0f)
     );
 }

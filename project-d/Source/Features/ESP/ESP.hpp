@@ -1,21 +1,10 @@
 #pragma once
 
 class ESP {
-
-private:
+public:
     void Render(ImDrawList* drawList);
 
-public:
-    void Update(ImDrawList* drawList) {
-        TIMER("ESP render");
-
-        Render(drawList);
-    }
-
-    static ESP& Get() {
-        static ESP instance;
-        return instance;
-    }
+    void Update();
 };
 
-inline ESP& esp = ESP::Get();
+inline std::unique_ptr<ESP> esp = std::make_unique<ESP>();

@@ -4,8 +4,7 @@
 #include "Config.hpp"
 #include "Excluded.hpp"
 
-class KmBoxMouse
-{
+class KmBoxMouse {
 public:
     soft_mouse_t MouseData{};
 public:
@@ -21,8 +20,7 @@ public:
     int Middle(bool Down);
 };
 
-class KmBoxKeyBoard
-{
+class KmBoxKeyBoard {
 public:
     thread t_Listen;
     WORD MonitorPort;
@@ -40,8 +38,7 @@ public:
     bool GetKeyState(WORD vKey);
 };
 
-class KmBoxNetManager
-{
+class KmBoxNetManager {
 private:
     SOCKADDR_IN AddrServer;
     SOCKET s_Client = 0;
@@ -74,4 +71,4 @@ public:
     KmBoxKeyBoard KeyBoard;
 };
 
-inline KmBoxNetManager Kmbox;
+inline std::unique_ptr<KmBoxNetManager> Kmbox = std::make_unique<KmBoxNetManager>();

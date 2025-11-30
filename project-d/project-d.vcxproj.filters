@@ -436,12 +436,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SDK\Objects\C_PlantedC4.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SDK\Objects\C_C4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SDK\Objects\CCSPlayerController.hpp">
+    <ClInclude Include="Source\Features\AIMBOT\TrigerBot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\C_BaseEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\CGameSceneNode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -495,6 +498,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Features\AIMBOT\Aimbot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\AIMBOT\TrigerBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

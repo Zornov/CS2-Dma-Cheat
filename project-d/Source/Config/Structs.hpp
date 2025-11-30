@@ -11,12 +11,23 @@ namespace Structs{
     };
 
     struct AimConfig {
-        bool Aimbot = false;
+        bool Trigger;
+        int TriggerKey;
+        int TriggerKeyMode;
+        int TriggerDelay;
 
-        bool DrawFov = false;
-        ImVec4 AimbotFovColor = ImVec4(255, 255, 255, 255);
+        bool Aimbot;
 
-        float AimbotFov = 20.0f;
+        bool DrawFov;
+        ImVec4 AimbotFovColor;
+
+        bool AimFriendly;
+        bool AimVisible;
+
+        int AimbotKey;
+        int AimbotKeyMode;
+        float AimbotFov;
+        float AimbotSmooth;
     };
 
     struct VisualsConfig {

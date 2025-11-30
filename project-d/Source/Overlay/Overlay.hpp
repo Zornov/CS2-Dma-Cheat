@@ -68,4 +68,4 @@ private:
 
 };
 
-inline Overlay overlay;
+inline std::unique_ptr<Overlay> overlay = std::make_unique<Overlay>();

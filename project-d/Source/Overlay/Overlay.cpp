@@ -258,7 +258,7 @@ void Overlay::EndRender() {
 	ImGui::Render();
 
 	float color[4];
-	if (config.Visuals.Background) // Black bg
+	if (config->Visuals.Background) // Black bg
 	{
 		color[0] = 0; color[1] = 0; color[2] = 0; color[3] = 1;
 	}
@@ -272,7 +272,7 @@ void Overlay::EndRender() {
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	swap_chain->Present(config.Misc.VSync ? 1U : 0U, 0U);
+	swap_chain->Present(config->Misc.VSync ? 1U : 0U, 0U);
 }
 
 void Overlay::StyleMenu(ImGuiIO& IO, ImGuiStyle& style) {
@@ -427,36 +427,69 @@ void Overlay::RenderMenu() {
 
 			if (m_iSelectedPage == MenuPage_Aim) {
 				ImGui::BeginGroup();
-				ImGui::BeginChild("Aimbot", ImVec2(fGroupWidth, 
-					ImGui::GetFrameHeight() + // MenuBar
-					style.WindowPadding.y * 2 + // child padding
-					style.ItemSpacing.x * 15 + // spacing
-					ImGui::GetFontSize() * 10 // checkbox + separators
-				), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar); 
 				{
-					if (ImGui::BeginMenuBar()) {
-						ImGui::SetCursorPos(style.FramePadding);
-						ImAdd::CheckBox("Aimbot##Enable", &config.Aim.Aimbot);
-						ImGui::EndMenuBar();
-					}
+					ImGui::BeginChild("Aimbot", ImVec2(fGroupWidth,
+						ImGui::GetFrameHeight() + // MenuBar
+						style.WindowPadding.y * 2 + // child padding
+						style.ItemSpacing.x * 15 + // spacing
+						ImGui::GetFontSize() * 10 // checkbox + separators
+					), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
+					{
+						if (ImGui::BeginMenuBar()) {
+							ImGui::SetCursorPos(style.FramePadding);
+							ImAdd::CheckBox("Aimbot##Enable", &config->Aim.Aimbot);
+							ImGui::EndMenuBar();
+						}
 
-					if (config.Aim.Aimbot) {
-						if (ProcInfo::KmboxInitialized) {
-							ImAdd::CheckBox("Draw FOV", &config.Aim.DrawFov);
-							if (config.Aim.DrawFov) {
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##FovColor", (float*)&config.Aim.AimbotFovColor);
+						if (config->Aim.Aimbot) {
+							if (ProcInfo::KmboxInitialized) {
+								ImAdd::CheckBox("Draw FOV", &config->Aim.DrawFov);
+								if (config->Aim.DrawFov) {
+									ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
+									ImAdd::ColorEdit4("##FovColor", (float*)&config->Aim.AimbotFovColor);
+								}
+
+								ImAdd::SliderFloat("Aimbot Fov", &config->Aim.AimbotFov, 0.0f, 180.0f);
 							}
-
-							ImAdd::SliderFloat("Aimbot Fov", &config.Aim.AimbotFov, 0.0f, 180.0f);
-						} else {
-							ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
-							ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
+							else {
+								ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
+								ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
+							}
 						}
 					}
+					ImGui::EndChild();
 				}
-				ImGui::EndChild();
 				ImGui::EndGroup();
+				ImGui::SameLine();
+				ImGui::BeginGroup();
+				{
+					ImGui::BeginChild("Trigger", ImVec2(fGroupWidth,
+						ImGui::GetFrameHeight() + // MenuBar
+						style.WindowPadding.y * 2 + // child padding
+						style.ItemSpacing.x * 15 + // spacing
+						ImGui::GetFontSize() * 10 // checkbox + separators
+					), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
+					{
+						if (ImGui::BeginMenuBar()) {
+							ImGui::SetCursorPos(style.FramePadding);
+							ImAdd::CheckBox("Trigger##Enable", &config->Aim.Trigger);
+							ImGui::EndMenuBar();
+						}
+
+						if (config->Aim.Trigger) {
+							if (ProcInfo::KmboxInitialized) {
+								ImAdd::KeyBindOptions KeyMode = (ImAdd::KeyBindOptions) config->Aim.TriggerKeyMode;
+								ImAdd::KeyBind("Trigger Key", &config->Aim.TriggerKey, 0, &KeyMode);
+
+								ImAdd::SliderInt("Trigger Delay (ms)", &config->Aim.TriggerDelay, 0, 250);
+							} else{
+								ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
+								ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
+							}
+						}
+					}
+					ImGui::EndChild();
+				}
 			} else if (m_iSelectedPage == MenuPage_Visuals) {
 				ImGui::BeginChild("Visuals", ImVec2(fGroupWidth,
 					ImGui::GetFrameHeight() + // MenuBar
@@ -467,7 +500,7 @@ void Overlay::RenderMenu() {
 				{
 					if (ImGui::BeginMenuBar()) {
 						ImGui::SetCursorPos(style.FramePadding);
-						ImAdd::CheckBox("Visuals##Enable", &config.Visuals.Enabled); 
+						ImAdd::CheckBox("Visuals##Enable", &config->Visuals.Enabled);
 						ImGui::EndMenuBar();
 					}
 
@@ -490,7 +523,7 @@ void Overlay::RenderMenu() {
 				{
 					if (ImGui::BeginMenuBar()) {
 						ImGui::SetCursorPos(style.FramePadding);
-						ImAdd::CheckBox("Misc##Enable", &config.Visuals.Enabled);
+						ImAdd::CheckBox("Misc##Enable", &config->Visuals.Enabled);
 						ImGui::EndMenuBar();
 					}
 					if (true) {

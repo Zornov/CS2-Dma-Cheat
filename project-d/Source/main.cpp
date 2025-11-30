@@ -3,8 +3,7 @@
 #include <Features.hpp>
 #include <Overlay.hpp>
 
-int main()
-{
+int main() {
     SetConsoleTitleA("Console - Debug");
     spdlog::set_level(spdlog::level::trace);
 
@@ -24,20 +23,20 @@ int main()
         return 1;
     }
 
-    if (!config.Init()) {
+    if (!config->Init()) {
         LOG_ERROR("Failed to initialize Config");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
 
-    if (!dma.Init()) {
+    if (!dma->Init()) {
         LOG_ERROR("Failed to initialize DMA components");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
     
-    if (config.Kmbox.Enabled) {
-        if (Kmbox.InitDevice(config.Kmbox.Ip, config.Kmbox.Port, config.Kmbox.Uuid) == 0) {
+    if (config->Kmbox.Enabled) {
+        if (Kmbox->InitDevice(config->Kmbox.Ip, config->Kmbox.Port, config->Kmbox.Uuid) == 0) {
             ProcInfo::KmboxInitialized = true;
         }
         else {
@@ -52,19 +51,19 @@ int main()
 
     ProcInfo::KmboxInitialized = true; // todo: remove
 
-    if (!sdk.Init()) {
+    if (!sdk->Init()) {
         LOG_ERROR("Failed to initialize SDK");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
 
-	if (!features.Init()) {
+	if (!features->Init()) {
 		LOG_ERROR("Failed to initialize Features");
 		this_thread::sleep_for(chrono::seconds(5));
 		return 1;
 	}
 
-    if (!overlay.Create()) {
+    if (!overlay->Create()) {
 		LOG_ERROR("Failed to create Overlay");
 		this_thread::sleep_for(chrono::seconds(5));
 		return 1;
@@ -72,25 +71,26 @@ int main()
 
     LOG_INFO("Initialization complete! Press INSERT to open the menu");
 
-    while (overlay.shouldRun) {
+    while (overlay->shouldRun) {
         TIMER("Global render");
 
-        overlay.StartRender();
+        overlay->StartRender();
 
-        if (overlay.shouldRenderMenu)
-            overlay.RenderMenu();
+        if (overlay->shouldRenderMenu)
+            overlay->RenderMenu();
 
-        ImDrawList* drawList = overlay.GetBackgroundDrawList();
+        ImDrawList* drawList = overlay->GetBackgroundDrawList();
         if (!drawList)
             continue;
 
-        sdk.Update();
-        features.Update(drawList);
+        sdk->Update();
+        features->Update();
+		features->Render(drawList);
 
-        overlay.EndRender();
+        overlay->EndRender();
     }
 
-	overlay.Destroy();
+	overlay->Destroy();
 
     system("pause");
     return 0;

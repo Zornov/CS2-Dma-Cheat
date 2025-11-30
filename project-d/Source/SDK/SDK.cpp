@@ -4,24 +4,26 @@
 
 bool SDK::Init() {
     Globals::Running = true;
-
-	// Planted C4
-    auto cPlantedC4 = mem.Read<uintptr_t>(
-        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwPlantedC4
-    );
-    cPlantedC4 = mem.Read<uintptr_t>(cPlantedC4);
-
-    planted_C4 = std::make_unique<C_PlantedC4>(cPlantedC4);
-
-    // Weapon C4
-    auto cC4 = mem.Read<uintptr_t>(
-        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwWeaponC4
-    );
-    cC4 = mem.Read<uintptr_t>(cC4);
-    
-    c4 = std::make_unique<C_C4>(cC4);
-
     return true;
+}
+
+void SDK::Update() {
+    UpdateObjects();
+
+    if (c4Planted)
+        c4Planted->Update();
+
+    Globals::ViewMatrix = mem->Read<Matrix>(
+        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwViewMatrix
+    );
+}
+
+void SDK::UpdateObjects() {
+    uintptr_t c4Addr = mem->Read<uintptr_t>(
+        mem->Read<uintptr_t>(Globals::ClientBase + cs2_dumper::offsets::client_dll::dwPlantedC4)
+    );
+
+    c4Planted = std::make_unique<C_PlantedC4>(c4Addr);
 }
 
 

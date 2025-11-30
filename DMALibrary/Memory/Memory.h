@@ -328,4 +328,4 @@ public:
 	VMM_HANDLE vHandle;
 };
 
-inline Memory mem;
+inline std::unique_ptr<Memory> mem = std::make_unique<Memory>();

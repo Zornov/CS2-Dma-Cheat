@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Structs.hpp"
 
 namespace Config {
@@ -7,11 +8,6 @@ namespace Config {
         Structs::KmboxConfig Kmbox;
         Structs::VisualsConfig Visuals;
         Structs::MiscConfig Misc;
-
-        static AppConfig& Get() {
-            static AppConfig instance;
-            return instance;
-        }
 
         bool Init() {
             Aim.AimbotFovColor = ImVec4(255, 255, 255, 255);
@@ -34,5 +30,4 @@ namespace Config {
     };
 }
 
-// Global config instance
-inline Config::AppConfig& config = Config::AppConfig::Get();
+inline std::unique_ptr<Config::AppConfig> config = std::make_unique<Config::AppConfig>();

@@ -2,17 +2,10 @@
 #include <Memory/Memory.h>
 
 class DMA {
-
-private:
-
 public:
 
 	bool Init();
 
-	static DMA& Get() {
-		static DMA instance;
-		return instance;
-	}
 };
 
-inline DMA& dma = DMA::Get();
+inline std::unique_ptr<DMA> dma = std::make_unique<DMA>();

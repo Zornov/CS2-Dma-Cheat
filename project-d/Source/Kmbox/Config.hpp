@@ -323,3 +323,74 @@ typedef struct {
 #define BIT5 0X20
 #define BIT6 0X40
 #define BIT7 0X80
+
+
+//int VKtoKMBOX(int vk) {
+//    switch (vk) {
+//        case 'A': return KEY_A;
+//        case 'B': return KEY_B;
+//        case 'C': return KEY_C;
+//        case 'D': return KEY_D;
+//        case 'E': return KEY_E;
+//        case 'F': return KEY_F;
+//        case 'G': return KEY_G;
+//        case 'H': return KEY_H;
+//        case 'I': return KEY_I;
+//        case 'J': return KEY_J;
+//        case 'K': return KEY_K;
+//        case 'L': return KEY_L;
+//        case 'M': return KEY_M;
+//        case 'N': return KEY_N;
+//        case 'O': return KEY_O;
+//        case 'P': return KEY_P;
+//        case 'Q': return KEY_Q;
+//        case 'R': return KEY_R;
+//        case 'S': return KEY_S;
+//        case 'T': return KEY_T;
+//        case 'U': return KEY_U;
+//        case 'V': return KEY_V;
+//        case 'W': return KEY_W;
+//        case 'X': return KEY_X;
+//        case 'Y': return KEY_Y;
+//        case 'Z': return KEY_Z;
+//
+//        case '0': return KEY_0_CPARENTHESIS;
+//        case '1': return KEY_1_EXCLAMATION_MARK;
+//        case '2': return KEY_2_AT;
+//        case '3': return KEY_3_NUMBER_SIGN;
+//        case '4': return KEY_4_DOLLAR;
+//        case '5': return KEY_5_PERCENT;
+//        case '6': return KEY_6_CARET;
+//        case '7': return KEY_7_AMPERSAND;
+//        case '8': return KEY_8_ASTERISK;
+//        case '9': return KEY_9_OPARENTHESIS;
+//
+//        case VK_F1:  return KEY_F1;
+//        case VK_F2:  return KEY_F2;
+//        case VK_F3:  return KEY_F3;
+//        case VK_F4:  return KEY_F4;
+//        case VK_F5:  return KEY_F5;
+//        case VK_F6:  return KEY_F6;
+//        case VK_F7:  return KEY_F7;
+//        case VK_F8:  return KEY_F8;
+//        case VK_F9:  return KEY_F9;
+//        case VK_F10: return KEY_F10;
+//        case VK_F11: return KEY_F11;
+//        case VK_F12: return KEY_F12;
+//
+//        case VK_SPACE:   return KEY_SPACEBAR;
+//        case VK_RETURN:  return KEY_ENTER;
+//        case VK_TAB:     return KEY_TAB;
+//        case VK_ESCAPE:  return KEY_ESCAPE;
+//        case VK_BACK:    return KEY_BACKSPACE;
+//        case VK_SHIFT:   return KEY_LEFTSHIFT;
+//        case VK_CONTROL: return KEY_LEFTCONTROL;
+//        case VK_MENU:    return KEY_LEFTALT;
+//        case VK_LEFT:    return KEY_LEFTARROW;
+//        case VK_RIGHT:   return KEY_RIGHTARROW;
+//        case VK_UP:      return KEY_UPARROW;
+//        case VK_DOWN:    return KEY_DOWNARROW;
+//
+//        default: return KEY_NONE;
+//    }
+//}

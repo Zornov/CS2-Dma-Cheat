@@ -5,8 +5,7 @@ namespace math {
     constexpr float PI = 3.14159265358979323846f;
 
     template<typename T>
-    union vector3
-    {
+    union vector3 {
         T data[3];
         struct {
             T x, y, z;
@@ -107,8 +106,7 @@ namespace math {
 
     // Define vector2
     template<typename T>
-    union vector2
-    {
+    union vector2 {
         T data[2];
         struct
         {
@@ -157,8 +155,7 @@ namespace math {
     };
 
     template<typename T>
-    union quaternion
-    {
+    union quaternion {
         T data[4];
         struct
         {

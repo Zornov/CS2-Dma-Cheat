@@ -125,12 +125,12 @@ void KmBoxNetManager::SpeedTest(int count)
 	auto startTime = chrono::steady_clock::now();
 
 	for (int i = count; i > 0; i -= 2) { // decrement by 2 as we are making two calls in each iteration
-		ret = Kmbox.Mouse.Move(0, -100);
+		ret = Kmbox->Mouse.Move(0, -100);
 		if (ret != 0) {
 			LOG_ERROR("tx error {} ret1={}", i, ret);
 		}
 
-		ret = Kmbox.Mouse.Move(0, 100);
+		ret = Kmbox->Mouse.Move(0, 100);
 		if (ret != 0) {
 			LOG_ERROR("tx error {} ret2={}", i, ret);
 		}
@@ -152,110 +152,110 @@ int KmBoxNetManager::NetHandler()
 
 int KmBoxMouse::Move(int x, int y)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_mouse_move;
-	Kmbox.PostData.head.rand = rand();
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_mouse_move;
+	Kmbox->PostData.head.rand = rand();
 
 	this->MouseData.x = x;
 	this->MouseData.y = y;
 
-	memcpy_s(&Kmbox.PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
+	memcpy_s(&Kmbox->PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
 
 	int Length = sizeof(cmd_head_t) + sizeof(soft_mouse_t);
 
 	this->MouseData.x = 0;
 	this->MouseData.y = 0;
 
-	return Kmbox.SendData(Length);
+	return Kmbox->SendData(Length);
 }
 
 int KmBoxMouse::Move_Auto(int x, int y, int Runtime)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_mouse_automove;
-	Kmbox.PostData.head.rand = Runtime;
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_mouse_automove;
+	Kmbox->PostData.head.rand = Runtime;
 
 	this->MouseData.x = x;
 	this->MouseData.y = y;
 
-	memcpy_s(&Kmbox.PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
+	memcpy_s(&Kmbox->PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
 
 	int Length = sizeof(cmd_head_t) + sizeof(soft_mouse_t);
 
 	this->MouseData.x = 0;
 	this->MouseData.y = 0;
 
-	return Kmbox.SendData(Length);
+	return Kmbox->SendData(Length);
 }
 
 int KmBoxMouse::Left(bool Down)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_mouse_left;
-	Kmbox.PostData.head.rand = rand();
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_mouse_left;
+	Kmbox->PostData.head.rand = rand();
 
 	this->MouseData.button = (Down ? (this->MouseData.button | 0x01) : (this->MouseData.button & (~0x01)));
 
-	memcpy_s(&Kmbox.PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
+	memcpy_s(&Kmbox->PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
 
 	int Length = sizeof(cmd_head_t) + sizeof(soft_mouse_t);
 
-	return Kmbox.SendData(Length);
+	return Kmbox->SendData(Length);
 }
 
 int KmBoxMouse::Right(bool Down)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_mouse_right;
-	Kmbox.PostData.head.rand = rand();
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_mouse_right;
+	Kmbox->PostData.head.rand = rand();
 
 	this->MouseData.button = (Down ? (this->MouseData.button | 0x02) : (this->MouseData.button & (~0x02)));
 
-	memcpy_s(&Kmbox.PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
+	memcpy_s(&Kmbox->PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
 
 	int Length = sizeof(cmd_head_t) + sizeof(soft_mouse_t);
 
-	return Kmbox.SendData(Length);
+	return Kmbox->SendData(Length);
 }
 
 int KmBoxMouse::Middle(bool Down)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_mouse_middle;
-	Kmbox.PostData.head.rand = rand();
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_mouse_middle;
+	Kmbox->PostData.head.rand = rand();
 
 	this->MouseData.button = (Down ? (this->MouseData.button | 0x04) : (this->MouseData.button & (~0x04)));
 
-	memcpy_s(&Kmbox.PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
+	memcpy_s(&Kmbox->PostData.cmd_mouse, sizeof(soft_mouse_t), &this->MouseData, sizeof(soft_mouse_t));
 
 	int Length = sizeof(cmd_head_t) + sizeof(soft_mouse_t);
 
-	return Kmbox.SendData(Length);
+	return Kmbox->SendData(Length);
 }
 
 void KmBoxKeyBoard::ListenThread()
@@ -302,20 +302,20 @@ void KmBoxKeyBoard::ListenThread()
 
 int KmBoxKeyBoard::StartMonitor(WORD Port)
 {
-	if (Kmbox.s_Client <= 0)
+	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
 	int Status = 0;
 
-	Kmbox.PostData.head.indexpts++;
-	Kmbox.PostData.head.cmd = cmd_monitor;
+	Kmbox->PostData.head.indexpts++;
+	Kmbox->PostData.head.cmd = cmd_monitor;
 
 	this->MonitorPort = Port;
-	Kmbox.PostData.head.rand = Port | 0xaa55 << 16;
+	Kmbox->PostData.head.rand = Port | 0xaa55 << 16;
 
 	int Length = sizeof(cmd_head_t);
 
-	Kmbox.SendData(Length);
+	Kmbox->SendData(Length);
 
 	if (this->s_ListenSocket > 0)
 	{
@@ -327,7 +327,7 @@ int KmBoxKeyBoard::StartMonitor(WORD Port)
 
 	this_thread::sleep_for(chrono::milliseconds(8));
 
-	return Kmbox.NetHandler();
+	return Kmbox->NetHandler();
 }
 
 void KmBoxKeyBoard::EndMonitor()

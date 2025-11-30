@@ -1,10 +1,8 @@
 #pragma once
 
-class c_exception_handler
-{
+class c_exception_handler {
 public:
-	static void log_file(const string& output)
-	{
+	static void log_file(const string& output) {
 		const string file_name = "crashlog.txt";
 
 		if (filesystem::exists(file_name))
@@ -26,8 +24,7 @@ public:
 		output_file << output << endl;
 	}
 
-	static long __stdcall handler(EXCEPTION_POINTERS* info)
-	{
+	static long __stdcall handler(EXCEPTION_POINTERS* info) {
 		const auto code = info->ExceptionRecord->ExceptionCode;
 		if (code != EXCEPTION_ACCESS_VIOLATION)
 			return 0;
@@ -45,8 +42,7 @@ public:
 		return 0;
 	}
 
-	static bool setup()
-	{
+	static bool setup() {
 		const auto handle = AddVectoredExceptionHandler(false, handler);
 		if (!handle)
 		{

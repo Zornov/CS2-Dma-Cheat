@@ -1,8 +1,7 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 
-class Renderer
-{
+class Renderer {
 public:
     static void Text(ImDrawList* drawList, float x, float y, float w, float h, const std::string& text, const ImVec4& color) {
         ImVec2 pos(x, y);

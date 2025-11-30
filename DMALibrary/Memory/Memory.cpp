@@ -211,7 +211,7 @@ bool Memory::Init(std::string process_name, bool memMap, bool debug)
 		return false;
 	}
 	current_process.process_name = process_name;
-	if (!mem.FixCr3())
+	if (!mem->FixCr3())
 		LOG("[!] Failed to fix CR3\n");
 
 	current_process.base_address = GetBaseDaddy(process_name);
@@ -349,7 +349,7 @@ uintptr_t Memory::GetExportTableAddress(std::string import, std::string process,
 {
 	PVMMDLL_MAP_EAT eat_map = NULL;
 	PVMMDLL_MAP_EATENTRY export_entry = NULL;
-	bool result = VMMDLL_Map_GetEATU(mem.vHandle, mem.GetPidFromName(process) /*| VMMDLL_PID_PROCESS_WITH_KERNELMEMORY*/, const_cast<LPSTR>(module.c_str()), &eat_map);
+	bool result = VMMDLL_Map_GetEATU(mem->vHandle, mem->GetPidFromName(process) /*| VMMDLL_PID_PROCESS_WITH_KERNELMEMORY*/, const_cast<LPSTR>(module.c_str()), &eat_map);
 	if (!result)
 	{
 		LOG("[!] Failed to get Export Table\n");
@@ -385,7 +385,7 @@ uintptr_t Memory::GetImportTableAddress(std::string import, std::string process,
 {
 	PVMMDLL_MAP_IAT iat_map = NULL;
 	PVMMDLL_MAP_IATENTRY import_entry = NULL;
-	bool result = VMMDLL_Map_GetIATU(mem.vHandle, mem.GetPidFromName(process) /*| VMMDLL_PID_PROCESS_WITH_KERNELMEMORY*/, const_cast<LPSTR>(module.c_str()), &iat_map);
+	bool result = VMMDLL_Map_GetIATU(mem->vHandle, mem->GetPidFromName(process) /*| VMMDLL_PID_PROCESS_WITH_KERNELMEMORY*/, const_cast<LPSTR>(module.c_str()), &iat_map);
 	if (!result)
 	{
 		LOG("[!] Failed to get Import Table\n");
