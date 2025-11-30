@@ -13,7 +13,7 @@ void ESP::Render(ImDrawList* drawList) {
     if (!sdk->c4Planted->m_bBombPlanted)
         return;
 
-    Vector3 bombPos = sdk->c4Planted->m_GameSceneNode.m_vecAbsOrigin;
+    Vector3 bombPos = sdk->c4Planted->m_GameSceneNode->m_vecAbsOrigin;
 
     Vector2 screenPos;
     if (!sdk->WorldToScreen(bombPos, screenPos))
