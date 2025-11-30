@@ -1,17 +1,31 @@
 #include <Pch.hpp>
 #include <SDK.hpp>
+#include <cs2/offsets.hpp>
 
-bool SDK::Init()
-{
+bool SDK::Init() {
     Globals::Running = true;
 
-    InitUpdateSdk();
+	// Planted C4
+    auto cPlantedC4 = mem.Read<uintptr_t>(
+        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwPlantedC4
+    );
+    cPlantedC4 = mem.Read<uintptr_t>(cPlantedC4);
+
+    planted_C4 = std::make_unique<C_PlantedC4>(cPlantedC4);
+
+    // Weapon C4
+    auto cC4 = mem.Read<uintptr_t>(
+        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwWeaponC4
+    );
+    cC4 = mem.Read<uintptr_t>(cC4);
+    
+    c4 = std::make_unique<C_C4>(cC4);
 
     return true;
 }
 
-bool SDK::WorldToScreen(const Vector3& WorldPos, Vector2& ScreenPos, const Matrix& Matrix)
-{
+
+bool SDK::WorldToScreen(const Vector3& WorldPos, Vector2& ScreenPos, const Matrix& Matrix) {
     float w = Matrix[3][0] * WorldPos.x + Matrix[3][1] * WorldPos.y + Matrix[3][2] * WorldPos.z + Matrix[3][3];
 
     if (w < 0.001f) {

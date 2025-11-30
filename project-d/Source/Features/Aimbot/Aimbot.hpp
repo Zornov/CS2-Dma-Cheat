@@ -1,16 +1,22 @@
 #pragma once
-#include <Pch.hpp>
+#include <imgui/imgui.h>
+#include <Timer/Timer.hpp>
 
-class Aimbot
-{
+class Aimbot {
+    void Render(ImDrawList* drawList);
+
 public:
-	void Update();
+    void Update(ImDrawList* drawList) {
+        TIMER("Aimbot update");
 
-	static Aimbot& Get()
-	{
-		static Aimbot instance;
-		return instance;
-	}
+        TIMER("Aimbot render");
+        Render(drawList);
+    }
+
+    static Aimbot& Get() {
+        static Aimbot instance;
+        return instance;
+    }
 };
 
-inline Aimbot& aim = Aimbot::Get();
+inline Aimbot& aimbot = Aimbot::Get();

@@ -384,9 +384,6 @@
     <ClInclude Include="Source\Config\Structs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Features\Aimbot\Aimbot.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="External\imgui\addons\imgui_addons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -429,7 +426,22 @@
     <ClInclude Include="Source\Math\Vector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Misc\Animation\Animation.hpp">
+    <ClInclude Include="Source\Features\AIMBOT\Aimbot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="External\cs2\client_dll.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="External\cs2\offsets.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\C_PlantedC4.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\C_C4.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\CCSPlayerController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -453,9 +465,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SDK\SDK.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Features\Aimbot\Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="External\imgui\addons\imgui_addons.cpp">
@@ -485,7 +494,7 @@
     <ClCompile Include="Source\Dma\DMA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Misc\Animation\Animation.cpp">
+    <ClCompile Include="Source\Features\AIMBOT\Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

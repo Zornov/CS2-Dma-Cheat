@@ -1,11 +1,10 @@
-#include "pch.h"
+#include "../pch.h"
 #include "InputManager.h"
 #include "Registry.h"
 #include "Memory/Memory.h"
 
 //TODO: Restart winlogon.exe when it doesn't exist.
-bool c_keys::InitKeyboard()
-{
+bool c_keys::InitKeyboard() {
 	std::string win = registry.QueryValue("HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\CurrentBuild", e_registry_type::sz);
 	int Winver = 0;
 	if (!win.empty())
@@ -30,8 +29,7 @@ bool c_keys::InitKeyboard()
 			uintptr_t tmp = VMMDLL_ProcessGetModuleBaseU(mem.vHandle, pid, const_cast<LPSTR>("win32ksgd.sys"));
 			uintptr_t g_session_global_slots = tmp + 0x3110;
 			uintptr_t user_session_state = 0;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++) {
 				user_session_state = mem.Read<uintptr_t>(mem.Read<uintptr_t>(mem.Read<uintptr_t>(g_session_global_slots, pid) + 8 * i, pid), pid);
 				if (user_session_state > 0x7FFFFFFFFFFF)
 					break;
@@ -109,7 +107,7 @@ bool c_keys::InitKeyboard()
 
 void c_keys::UpdateKeys()
 {
-	uint8_t previous_key_state_bitmap[64] = {0};
+	uint8_t previous_key_state_bitmap[64] = { 0 };
 	memcpy(previous_key_state_bitmap, state_bitmap, 64);
 
 	VMMDLL_MemReadEx(mem.vHandle, this->win_logon_pid | VMMDLL_PID_PROCESS_WITH_KERNELMEMORY, gafAsyncKeyStateExport, reinterpret_cast<PBYTE>(&state_bitmap), 64, NULL, VMMDLL_FLAG_NOCACHE);

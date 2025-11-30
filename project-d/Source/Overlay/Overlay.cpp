@@ -17,8 +17,7 @@ WNDCLASSEX Overlay::wc = { };
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-LRESULT CALLBACK window_procedure(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
-{
+LRESULT CALLBACK window_procedure(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {
 	if (ImGui_ImplWin32_WndProcHandler(window, msg, wParam, lParam))
 		return true;
 
@@ -46,8 +45,7 @@ LRESULT CALLBACK window_procedure(HWND window, UINT msg, WPARAM wParam, LPARAM l
 	return DefWindowProc(window, msg, wParam, lParam);
 }
 
-bool Overlay::CreateDevice()
-{
+bool Overlay::CreateDevice() {
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
 
@@ -126,8 +124,7 @@ bool Overlay::CreateDevice()
 	return false;
 }
 
-void Overlay::DestroyDevice()
-{
+void Overlay::DestroyDevice() {
 	if (device)
 	{
 		device->Release();
@@ -139,8 +136,7 @@ void Overlay::DestroyDevice()
 		LOG_ERROR("Device not found when exiting");
 }
 
-bool Overlay::CreateOverlay()
-{
+bool Overlay::CreateOverlay() {
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_CLASSDC;
 	wc.lpfnWndProc = window_procedure;
@@ -198,14 +194,12 @@ bool Overlay::CreateOverlay()
 	return true;
 }
 
-void Overlay::DestroyOverlay()
-{
+void Overlay::DestroyOverlay() {
 	DestroyWindow(overlay);
 	UnregisterClass(wc.lpszClassName, wc.hInstance);
 }
 
-bool Overlay::CreateImGui()
-{
+bool Overlay::CreateImGui() {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
@@ -222,21 +216,18 @@ bool Overlay::CreateImGui()
 	return true;
 }
 
-void Overlay::DestroyImGui()
-{
+void Overlay::DestroyImGui() {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 }
 
-void Overlay::SetForeground(HWND window)
-{
+void Overlay::SetForeground(HWND window) {
 	if (!IsWindowInForeground(window))
 		BringToForeground(window);
 }
 
-void Overlay::StartRender()
-{
+void Overlay::StartRender() {
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
 	{
@@ -263,8 +254,7 @@ void Overlay::StartRender()
 	}
 }
 
-void Overlay::EndRender()
-{
+void Overlay::EndRender() {
 	ImGui::Render();
 
 	float color[4];
@@ -282,11 +272,10 @@ void Overlay::EndRender()
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	swap_chain->Present(config.Visuals.VSync ? 1U : 0U, 0U);
+	swap_chain->Present(config.Misc.VSync ? 1U : 0U, 0U);
 }
 
-void Overlay::StyleMenu(ImGuiIO& IO, ImGuiStyle& style)
-{
+void Overlay::StyleMenu(ImGuiIO& IO, ImGuiStyle& style) {
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 
@@ -356,7 +345,7 @@ void Overlay::StyleMenu(ImGuiIO& IO, ImGuiStyle& style)
 
 		m_Tabs.push_back("Aim");     // MenuPage_Aiming
 		m_Tabs.push_back("Visuals");    // MenuPage_Visuals
-		m_Tabs.push_back("Config");    // MenuPage_Configs
+		m_Tabs.push_back("Misc");    // MenuPage_Misc
 		m_Tabs.push_back("Info");       // MenuPage_Info
 
 		ImFont* MainFont = IO.Fonts->AddFontFromMemoryCompressedTTF(IBMPlexMono_Medium_compressed_data, IBMPlexMono_Medium_compressed_size, 14, nullptr, IO.Fonts->GetGlyphRangesDefault());
@@ -365,8 +354,7 @@ void Overlay::StyleMenu(ImGuiIO& IO, ImGuiStyle& style)
 	}
 }
 
-bool Overlay::Create()
-{
+bool Overlay::Create() {
 	shouldRun = true;
 	shouldRenderMenu = false;
 
@@ -383,21 +371,19 @@ bool Overlay::Create()
 	return true;
 }
 
-void Overlay::Destroy()
-{
+void Overlay::Destroy() {
 	DestroyImGui();
 	DestroyDevice();
 	DestroyOverlay();
 }
 
-void Overlay::RenderMenu()
-{
+void Overlay::RenderMenu() {
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImGuiIO& io = ImGui::GetIO();
 
 	ImGui::SetNextWindowSize(ImVec2(570, 500), ImGuiCond_Always);
 	ImGui::Begin(
-		"Awhare",
+		"AdultWare",
 		&shouldRenderMenu,
 		ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_AlwaysAutoResize |
@@ -408,8 +394,8 @@ void Overlay::RenderMenu()
 
 	float OverlayFps = ImGui::GetIO().Framerate;
 
-	ImGui::SetCursorPosX(ImGui::GetWindowWidth() / 2 - ImGui::CalcTextSize("Awhare").x / 2);
-	ImGui::Text("Awhare");
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() / 2 - ImGui::CalcTextSize("AdultWare").x / 2);
+	ImGui::Text("AdultWare");
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, style.Colors[ImGuiCol_FrameBg]);
@@ -439,94 +425,39 @@ void Overlay::RenderMenu()
 		{
 			float fGroupWidth = (ImGui::GetWindowWidth() - style.WindowPadding.x * 2 - style.ItemSpacing.x) / 2;
 
-			if (m_iSelectedPage == MenuPage_Aim)
-			{
-				ImGui::BeginGroup(); // Left group
-				{
-					ImGui::BeginChild("Aimbot", ImVec2(fGroupWidth, 
-						ImGui::GetFrameHeight() + // MenuBar
-						style.WindowPadding.y * 2 + // child padding
-						style.ItemSpacing.x * 15 + // spacing
-						ImGui::GetFontSize() * 10 // checkbox + separators
-					), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar); 
-					{
-						if (ImGui::BeginMenuBar()) {
-							ImGui::SetCursorPos(style.FramePadding);
-							ImAdd::CheckBox("Aimbot##Enable", &config.Aim.Aimbot);
-							ImGui::EndMenuBar();
-						}
-
-						if (config.Aim.Aimbot)
-						{
-							if (ProcInfo::KmboxInitialized)
-							{
-								ImAdd::CheckBox("Draw FOV", &config.Aim.DrawFov);
-								if (config.Aim.DrawFov)
-								{
-									ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-									ImAdd::ColorEdit4("##FovColor", (float*)&config.Aim.AimbotFovColor);
-								}
-
-								ImAdd::CheckBox("Aim Visible", &config.Aim.AimVisible);
-								ImAdd::CheckBox("Aim Teammates", &config.Aim.AimFriendly);
-
-								ImAdd::KeyBindOptions KeyMode = (ImAdd::KeyBindOptions)config.Aim.AimbotKeyMode;
-								ImAdd::KeyBind("Aimbot Key", &config.Aim.AimbotKey, 0, &KeyMode);
-
-								ImAdd::SliderFloat("Aimbot Fov", &config.Aim.AimbotFov, 0.0f, 180.0f);
-								ImAdd::SliderFloat("Aimbot Smooth", &config.Aim.AimbotSmooth, 0.0f, 100.0f);
-							}
-							else
-							{
-								ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
-								ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
-							}
-						}
-					}
-					ImGui::EndChild();
-				}
-				ImGui::EndGroup();
-				ImGui::SameLine();
+			if (m_iSelectedPage == MenuPage_Aim) {
 				ImGui::BeginGroup();
+				ImGui::BeginChild("Aimbot", ImVec2(fGroupWidth, 
+					ImGui::GetFrameHeight() + // MenuBar
+					style.WindowPadding.y * 2 + // child padding
+					style.ItemSpacing.x * 15 + // spacing
+					ImGui::GetFontSize() * 10 // checkbox + separators
+				), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar); 
 				{
-					ImGui::BeginChild("Trigger", ImVec2(fGroupWidth,
-						ImGui::GetFrameHeight() + // MenuBar
-						style.WindowPadding.y * 2 + // child padding
-						style.ItemSpacing.x * 15 + // spacing
-						ImGui::GetFontSize() * 10 // checkbox + separators
-					), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
-					{
-						if (ImGui::BeginMenuBar()) {
-							ImGui::SetCursorPos(style.FramePadding);
-							ImAdd::CheckBox("Trigger##Enable", &config.Aim.Trigger);
-							ImGui::EndMenuBar();
-						}
+					if (ImGui::BeginMenuBar()) {
+						ImGui::SetCursorPos(style.FramePadding);
+						ImAdd::CheckBox("Aimbot##Enable", &config.Aim.Aimbot);
+						ImGui::EndMenuBar();
+					}
 
-						if (config.Aim.Trigger)
-						{
-							if (ProcInfo::KmboxInitialized)
-							{
-								ImAdd::CheckBox("Trigger##Enable", &config.Aim.Trigger);
-
-								ImAdd::KeyBindOptions KeyMode = (ImAdd::KeyBindOptions)config.Aim.TriggerKeyMode;
-								ImAdd::KeyBind("Trigger Key", &config.Aim.TriggerKey, 0, &KeyMode);
-
-								ImAdd::SliderInt("Trigger Delay (ms)", &config.Aim.TriggerDelay, 0, 250);
+					if (config.Aim.Aimbot) {
+						if (ProcInfo::KmboxInitialized) {
+							ImAdd::CheckBox("Draw FOV", &config.Aim.DrawFov);
+							if (config.Aim.DrawFov) {
+								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
+								ImAdd::ColorEdit4("##FovColor", (float*)&config.Aim.AimbotFovColor);
 							}
-							else
-							{
-								ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
-								ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
-							}
+
+							ImAdd::SliderFloat("Aimbot Fov", &config.Aim.AimbotFov, 0.0f, 180.0f);
+						} else {
+							ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - ImGui::GetFrameHeight()) / 2 - ImGui::CalcTextSize("KMBOX not connected.") / 2 + ImVec2(0, ImGui::GetFrameHeight()));
+							ImGui::TextColored(ImVec4(1, 0, 0, 1), "KMBOX not connected.");
 						}
 					}
-					ImGui::EndChild();
 				}
+				ImGui::EndChild();
 				ImGui::EndGroup();
-			}
-
-			else if (m_iSelectedPage == MenuPage_Visuals)
-			{
+			} else if (m_iSelectedPage == MenuPage_Visuals) {
 				ImGui::BeginChild("Visuals", ImVec2(fGroupWidth,
 					ImGui::GetFrameHeight() + // MenuBar
 					style.WindowPadding.y * 2 + // child padding
@@ -540,197 +471,36 @@ void Overlay::RenderMenu()
 						ImGui::EndMenuBar();
 					}
 
-					if (config.Visuals.Enabled)
-					{
-						ImAdd::SeparatorText("General");
+					ImAdd::SeparatorText("General");
 
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Watermark", &config.Visuals.Watermark);
-							if (config.Visuals.Watermark)
-							{
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##WatermarkColor", (float*)&config.Visuals.WatermarkColor);
-							}
-						}
+					ImAdd::SeparatorText("Players");
 
-						ImAdd::CheckBox("Background", &config.Visuals.Background);
-
-						ImAdd::SeparatorText("Visual");
-						ImAdd::CheckBox("VSync", &config.Visuals.VSync);
-						ImAdd::CheckBox("Team Check", &config.Visuals.TeamCheck);
-						ImAdd::CheckBox("Visible Check", &config.Visuals.VisibleCheck);
-
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Hitmarker", &config.Visuals.Hitmarker);
-							if (config.Visuals.Hitmarker)
-							{
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##HitmarkerColor", (float*)&config.Visuals.HitmarkerColor);
-							}
-						}
-
-						ImAdd::SeparatorText("Players");
-
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Name", &config.Visuals.Name);
-							if (config.Visuals.Name)
-							{
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##NameColor", (float*)&config.Visuals.NameColor);
-							}
-						}
-
-						ImAdd::CheckBox("Health", &config.Visuals.Health);
-
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Box", &config.Visuals.Box);
-							if (config.Visuals.Box)
-							{
-								ImAdd::ColorEdit4("Box Color", (float*)&config.Visuals.BoxColor);
-								ImAdd::ColorEdit4("Box Color Visible", (float*)&config.Visuals.BoxColorVisible);
-							}
-						}
-
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Weapon", &config.Visuals.Weapon);
-							if (config.Visuals.Weapon)
-							{
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##WeaponColor", (float*)&config.Visuals.WeaponColor);
-							}
-						}
-
-						ImGui::BeginGroup();
-						{
-							ImAdd::CheckBox("Bones", &config.Visuals.Bones);
-							if (config.Visuals.Bones)
-							{
-								ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetFontSize() * 2 - style.WindowPadding.x * 2);
-								ImAdd::ColorEdit4("##BonesColor", (float*)&config.Visuals.BonesColor);
-							}
-						}
-					}
 				}
 				ImGui::EndChild();
 			}
 
-			else if (m_iSelectedPage == MenuPage_Config)
+			else if (m_iSelectedPage == MenuPage_Misc)
 			{
-				ImGui::BeginChild("Configs", ImVec2(0, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
+				ImGui::BeginChild("Misc", ImVec2(fGroupWidth,
+					ImGui::GetFrameHeight() + // MenuBar
+					style.WindowPadding.y * 2 + // child padding
+					style.ItemSpacing.x * 15 + // spacing
+					ImGui::GetFontSize() * 10 // checkbox + separators
+				), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
 				{
 					if (ImGui::BeginMenuBar()) {
-						ImGui::Text("Configs");
+						ImGui::SetCursorPos(style.FramePadding);
+						ImAdd::CheckBox("Misc##Enable", &config.Visuals.Enabled);
 						ImGui::EndMenuBar();
 					}
-						
-					static char configName[128] = "";
-					static std::vector<std::string> configFiles;
+					if (true) {
 
-					if (ImAdd::Button("Refresh"))
-					{
-						configFiles = config.ListConfigs("configs/");
-						LOG_INFO("Refreshed config list");
 					}
 
-					ImGui::Separator();
+					ImAdd::SeparatorText("General");
 
-					// Config List
-					if (ImGui::BeginListBox("Config list"))
-					{
-						if (configFiles.empty())
-						{
-							ImGui::Selectable("No configs found", false, ImGuiSelectableFlags_Disabled);
-						}
-						else
-						{
-							for (const auto& file : configFiles)
-							{
-								bool isSelected = (file == configName);
-								if (ImGui::Selectable(file.c_str(), isSelected))
-								{
-									strcpy(configName, file.c_str());
-									LOG_INFO("Selected config: {}", configName);
-								}
+					ImAdd::SeparatorText("Players");
 
-								if (isSelected)
-								{
-									ImGui::SetItemDefaultFocus();
-								}
-							}
-						}
-						ImGui::EndListBox();
-					}
-
-					// Config Name Input
-					ImGui::InputText("Config Name", configName, IM_ARRAYSIZE(configName));
-
-					// Control Buttons
-					float buttonWidth = 75.0f;
-					float buttonSpacing = 10.0f;
-					ImGui::Dummy(ImVec2(0.0f, 5.0f));
-
-					if (ImAdd::Button("Load", ImVec2(buttonWidth, 0)))
-					{
-						std::string filePath = "configs/" + std::string(configName);
-						if (!config.LoadFromFile(filePath))
-						{
-							LOG_ERROR("Failed to load config: {}", filePath);
-						}
-						else
-						{
-							LOG_INFO("Loaded config: {}", filePath);
-						}
-					}
-
-					ImGui::SameLine(0.0f, buttonSpacing);
-
-					if (ImAdd::Button("Save", ImVec2(buttonWidth, 0)))
-					{
-						std::string filePath = "configs/" + std::string(configName);
-						if (!config.SaveToFile(filePath))
-						{
-							LOG_ERROR("Failed to save config: {}", filePath);
-						}
-						else
-						{
-							LOG_INFO("Saved config: {}", filePath);
-						}
-					}
-
-					ImGui::SameLine(0.0f, buttonSpacing);
-
-					if (ImAdd::Button("Delete", ImVec2(buttonWidth, 0)))
-					{
-						std::string filePath = "configs/" + std::string(configName);
-						if (!config.DeleteConfigFile(filePath))
-						{
-							LOG_ERROR("Failed to delete config: {}", filePath);
-						}
-						else
-						{
-							LOG_INFO("Deleted config: {}", filePath);
-							configFiles = config.ListConfigs("configs/");
-						}
-					}
-
-					ImGui::SameLine(0.0f, buttonSpacing);
-
-					if (ImAdd::Button("Import", ImVec2(buttonWidth, 0)))
-					{
-						if (config.LoadFromClipboard())
-						{
-							LOG_INFO("Config imported from clipboard");
-						}
-						else
-						{
-							LOG_ERROR("Failed to import config from clipboard");
-						}
-					}
 				}
 				ImGui::EndChild();
 			}

@@ -1,36 +1,24 @@
 #include <SDK.hpp>
 
-#include <Aimbot/Aimbot.hpp>
 #include <ESP/ESP.hpp>
+#include <Aimbot/Aimbot.hpp>
 
-class Features
-{
+class Features {
+
 public:
-
-	void InitAimbot()
-	{
-		thread([&]()
-		{
-			while (Globals::Running)
-			{
-				this_thread::sleep_for(chrono::milliseconds(1));
-
-				aim.Update();
-			}
-		}).detach();
+	void Update(ImDrawList* drawList) {
+		esp.Update(drawList);
+		aimbot.Update(drawList);
 	}
 
-	static Features& Get()
-	{
-		static Features instance;
-		return instance;
-	}
-
-	bool Init()
-	{
-		//InitAimbot();
+	bool Init() {
 
 		return true;
+	}
+
+	static Features& Get() {
+		static Features instance;
+		return instance;
 	}
 };
 

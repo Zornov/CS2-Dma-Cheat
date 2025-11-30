@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 #include "Memory.h"
 
 #include <thread>
@@ -33,7 +33,7 @@ Memory::~Memory()
 
 bool Memory::DumpMemoryMap(bool debug)
 {
-	LPCSTR args[] = {const_cast<LPCSTR>(""), const_cast<LPCSTR>("-device"), const_cast<LPCSTR>("fpga://algo=0"), const_cast<LPCSTR>(""), const_cast<LPCSTR>("")};
+	LPCSTR args[] = { const_cast<LPCSTR>(""), const_cast<LPCSTR>("-device"), const_cast<LPCSTR>("fpga://algo=0"), const_cast<LPCSTR>(""), const_cast<LPCSTR>("") };
 	int argc = 3;
 	if (debug)
 	{
@@ -91,7 +91,7 @@ bool Memory::DumpMemoryMap(bool debug)
 	return true;
 }
 
-unsigned char abort2[4] = {0x10, 0x00, 0x10, 0x00};
+unsigned char abort2[4] = { 0x10, 0x00, 0x10, 0x00 };
 
 bool Memory::SetFPGA()
 {
@@ -109,7 +109,7 @@ bool Memory::SetFPGA()
 	if ((qwVersionMajor >= 4) && ((qwVersionMajor >= 5) || (qwVersionMinor >= 7)))
 	{
 		HANDLE handle;
-		LC_CONFIG config = {.dwVersion = LC_CONFIG_VERSION, .szDevice = "existing"};
+		LC_CONFIG config = { .dwVersion = LC_CONFIG_VERSION, .szDevice = "existing" };
 		handle = LcCreate(&config);
 		if (!handle)
 		{
@@ -131,7 +131,7 @@ bool Memory::Init(std::string process_name, bool memMap, bool debug)
 	{
 		LOG("inizializing...\n");
 	reinit:
-		LPCSTR args[] = {const_cast<LPCSTR>(""), const_cast<LPCSTR>("-device"), const_cast<LPCSTR>("fpga://algo=0"), const_cast<LPCSTR>(""), const_cast<LPCSTR>(""), const_cast<LPCSTR>(""), const_cast<LPCSTR>("")};
+		LPCSTR args[] = { const_cast<LPCSTR>(""), const_cast<LPCSTR>("-device"), const_cast<LPCSTR>("fpga://algo=0"), const_cast<LPCSTR>(""), const_cast<LPCSTR>(""), const_cast<LPCSTR>(""), const_cast<LPCSTR>("") };
 		DWORD argc = 3;
 		if (debug)
 		{
@@ -452,7 +452,7 @@ bool Memory::FixCr3()
 
 	while (true)
 	{
-		BYTE bytes[4] = {0};
+		BYTE bytes[4] = { 0 };
 		DWORD i = 0;
 		auto nt = VMMDLL_VfsReadW(this->vHandle, const_cast<LPWSTR>(L"\\misc\\procinfo\\progress_percent.txt"), bytes, 3, &i, 0);
 		if (nt == VMMDLL_STATUS_SUCCESS && atoi(reinterpret_cast<LPSTR>(bytes)) == 100)
@@ -518,7 +518,7 @@ bool Memory::FixCr3()
 bool Memory::DumpMemory(uintptr_t address, std::string path)
 {
 	LOG("[!] Memory dumping currently does not rebuild the IAT table, imports will be missing from the dump.\n");
-	IMAGE_DOS_HEADER dos { };
+	IMAGE_DOS_HEADER dos{ };
 	Read(address, &dos, sizeof(IMAGE_DOS_HEADER));
 
 	//Check if memory has a PE 
@@ -627,22 +627,22 @@ bool Memory::DumpMemory(uintptr_t address, std::string path)
 }
 
 static const char* hexdigits =
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\001\002\003\004\005\006\007\010\011\000\000\000\000\000\000"
-	"\000\012\013\014\015\016\017\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\012\013\014\015\016\017\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000";
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\001\002\003\004\005\006\007\010\011\000\000\000\000\000\000"
+"\000\012\013\014\015\016\017\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\012\013\014\015\016\017\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000";
 
 static uint8_t GetByte(const char* hex)
 {

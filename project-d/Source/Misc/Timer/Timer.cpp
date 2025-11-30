@@ -1,10 +1,9 @@
 #include <Pch.hpp>
 
-#ifndef DISABLE_TIMERS
+#if !DISABLE_TIMERS
 
 #include "Timer.hpp"
 
-// Initialize static members
 map<string, Timer::FunctionData> Timer::functionData;
 mutex Timer::dataMutex;
 
@@ -25,8 +24,8 @@ Timer::~Timer() {
         data.invocations++;
         auto averageTime = data.totalTime / data.invocations;
 
-		LOG_INFO("{}' took '{}'ms - Average '{}'ms - Invocations '{}'", name, duration, averageTime, data.invocations);
+        LOG_INFO("{}' took '{}'ms - Average '{}'ms - Invocations '{}'", name, duration, averageTime, data.invocations);
     }
 }
 
-#endif // DISABLE_TIMERS
+#endif // !DISABLE_TIMERS

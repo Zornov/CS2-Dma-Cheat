@@ -1,10 +1,10 @@
 #ifndef TIMER_HPP
 #define TIMER_HPP
 
-#ifdef DISABLE_TIMERS
-#define TIMER(name) 
+#if DISABLE_TIMERS
+    #define TIMER(name) 
 #else
-#define TIMER(name) Timer timer(name)
+    #define TIMER(name) Timer timer(name)
 
 class Timer
 {

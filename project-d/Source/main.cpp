@@ -9,70 +9,62 @@ int main()
     spdlog::set_level(spdlog::level::trace);
 
     cout << R"(
-     _______ _______ _______ _______ _______ _______ 
-    |\     /|\     /|\     /|\     /|\     /|\     /|
-    | +---+ | +---+ | +---+ | +---+ | +---+ | +---+ |
-    | |   | | |   | | |   | | |   | | |   | | |   | |
-    | |A  | | |W  | | |H  | | |A  | | |R  | | |E  | |
-    | +---+ | +---+ | +---+ | +---+ | +---+ | +---+ |
-    |/_____\|/_____\|/_____\|/_____\|/_____\|/_____\|
-)" << '\n';
+         _______ _______ _______ _______ _______ _______ 
+        |\     /|\     /|\     /|\     /|\     /|\     /|
+        | +---+ | +---+ | +---+ | +---+ | +---+ | +---+ |
+        | |   | | |   | | |   | | |   | | |   | | |   | |
+        | |A  | | |W  | | |H  | | |A  | | |R  | | |E  | |
+        | +---+ | +---+ | +---+ | +---+ | +---+ | +---+ |
+        |/_____\|/_____\|/_____\|/_____\|/_____\|/_____\|
+    )" << '\n';
 
-    if (!c_exception_handler::setup())
-    {
+    if (!c_exception_handler::setup()) {
         LOG_ERROR("Failed to setup Exception Handler");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
 
-    if (!config.Init())
-    {
+    if (!config.Init()) {
         LOG_ERROR("Failed to initialize Config");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
 
-    if (config.Kmbox.Enabled)
-    {
-        if (Kmbox.InitDevice(config.Kmbox.Ip, config.Kmbox.Port, config.Kmbox.Uuid) == 0)
-        {
+    if (!dma.Init()) {
+        LOG_ERROR("Failed to initialize DMA components");
+        this_thread::sleep_for(chrono::seconds(5));
+        return 1;
+    }
+    
+    if (config.Kmbox.Enabled) {
+        if (Kmbox.InitDevice(config.Kmbox.Ip, config.Kmbox.Port, config.Kmbox.Uuid) == 0) {
             ProcInfo::KmboxInitialized = true;
         }
-        else
-        {
+        else {
             LOG_ERROR("Failed to initialize KMBOX");
             std::this_thread::sleep_for(std::chrono::seconds(5));
             return 1;
         }
     }
-    else
-    {
+    else {
         ProcInfo::KmboxInitialized = false;
     }
 
-    if (!dma.Init())
-    {
-        LOG_ERROR("Failed to initialize DMA");
-        this_thread::sleep_for(chrono::seconds(5));
-        return 1;
-    }
+    ProcInfo::KmboxInitialized = true; // todo: remove
 
-    if (!sdk.Init())
-    {
+    if (!sdk.Init()) {
         LOG_ERROR("Failed to initialize SDK");
         this_thread::sleep_for(chrono::seconds(5));
         return 1;
     }
 
-	if (!features.Init())
-    {
+	if (!features.Init()) {
 		LOG_ERROR("Failed to initialize Features");
 		this_thread::sleep_for(chrono::seconds(5));
 		return 1;
 	}
 
-    if (!overlay.Create())
-    {
+    if (!overlay.Create()) {
 		LOG_ERROR("Failed to create Overlay");
 		this_thread::sleep_for(chrono::seconds(5));
 		return 1;
@@ -80,8 +72,7 @@ int main()
 
     LOG_INFO("Initialization complete! Press INSERT to open the menu");
 
-    while (overlay.shouldRun)
-    {
+    while (overlay.shouldRun) {
         TIMER("Global render");
 
         overlay.StartRender();
@@ -93,7 +84,8 @@ int main()
         if (!drawList)
             continue;
 
-        esp.Update(drawList);
+        sdk.Update();
+        features.Update(drawList);
 
         overlay.EndRender();
     }

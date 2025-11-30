@@ -1,16 +1,15 @@
 #pragma once
 #include <Memory/Memory.h>
 
-class DMA
-{
+class DMA {
+
 private:
 
 public:
 
 	bool Init();
 
-	static DMA& Get()
-	{
+	static DMA& Get() {
 		static DMA instance;
 		return instance;
 	}

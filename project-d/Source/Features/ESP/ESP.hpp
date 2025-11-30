@@ -1,20 +1,18 @@
 #pragma once
 
-class ESP
-{
+class ESP {
+
 private:
     void Render(ImDrawList* drawList);
 
 public:
-    void Update(ImDrawList* drawList)
-    {
+    void Update(ImDrawList* drawList) {
         TIMER("ESP render");
 
         Render(drawList);
     }
 
-    static ESP& Get()
-    {
+    static ESP& Get() {
         static ESP instance;
         return instance;
     }

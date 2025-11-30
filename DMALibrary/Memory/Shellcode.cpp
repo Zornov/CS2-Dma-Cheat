@@ -1,13 +1,13 @@
-#include "pch.h"
+#include "../pch.h"
 #include "Shellcode.h"
 #include "Memory.h"
 
-std::vector<std::string> blacklist = {"kernel32.dll", "kernelbase.dll", "wow64.dll", "wow64win.dll", "wow64cpu.dll", "ntoskrnl.exe", "win32kbase.sys"};
+std::vector<std::string> blacklist = { "kernel32.dll", "kernelbase.dll", "wow64.dll", "wow64win.dll", "wow64cpu.dll", "ntoskrnl.exe", "win32kbase.sys" };
 
 uint64_t c_shellcode::find_codecave(size_t function_size, const std::string& process_name, const std::string& module)
 {
 	int pid = mem.GetPidFromName(process_name);
-	VMMDLL_PROCESS_INFORMATION process_info = {0};
+	VMMDLL_PROCESS_INFORMATION process_info = { 0 };
 	process_info.magic = VMMDLL_PROCESS_INFORMATION_MAGIC;
 	process_info.wVersion = VMMDLL_PROCESS_INFORMATION_VERSION;
 	SIZE_T process_info_size = sizeof(VMMDLL_PROCESS_INFORMATION);

@@ -16,16 +16,14 @@ inline const Vector3 ScreenCenter = {
 	Screen.y / 2.f
 };
 
-namespace Globals
-{
+namespace Globals {
 	inline bool Running = false;
-	inline uint64_t ClientBase = NULL;
+	inline intptr_t ClientBase = NULL;
 
 	inline Matrix ViewMatrix;
 };
 
-namespace ProcInfo
-{
+namespace ProcInfo {
 	inline bool DmaInitialized = NULL;
 	inline bool KmboxInitialized = NULL;
 };

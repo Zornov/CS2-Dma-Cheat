@@ -12,7 +12,7 @@ enum eMenuPage_ : int
 {
 	MenuPage_Aim,
 	MenuPage_Visuals,
-	MenuPage_Config,
+	MenuPage_Misc,
 	MenuPage_Info,
 
 	MenuPage_COUNT

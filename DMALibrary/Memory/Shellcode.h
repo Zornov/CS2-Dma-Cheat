@@ -21,7 +21,7 @@ public:
 
 	/**
 	* @brief finds all code caves in the target process, that's atleast size of function_size & has Read, Write, Execute permission.
-	* @param function_size - the size of the function we're gonna inject 
+	* @param function_size - the size of the function we're gonna inject
 	* @param process_name - the name of the process we're gonna inject to
 	* @return all addresses that has a big enough codecave for us.
 	**/
@@ -54,7 +54,7 @@ public:
 		if (!mem.Read(ntos_shutdown, (PBYTE)orig_bytes, sizeof(orig_bytes), 4))
 			return buffer;
 
-	
+
 		if (!mem.Write(ntos_shutdown, jmp_bytes, sizeof(jmp_bytes), 4))
 		{
 			LOG("[!] Failed to write memory at 0x%p\n", ntos_shutdown);
