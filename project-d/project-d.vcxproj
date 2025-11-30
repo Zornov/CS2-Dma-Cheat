@@ -121,8 +121,8 @@
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Dma\DMA.hpp" />
-    <ClInclude Include="Source\Features\AIMBOT\Aimbot.hpp" />
-    <ClInclude Include="Source\Features\AIMBOT\TrigerBot.hpp" />
+    <ClInclude Include="Source\Features\Aimbot\Aimbot.hpp" />
+    <ClInclude Include="Source\Features\Aimbot\TrigerBot.hpp" />
     <ClInclude Include="Source\Math\Matrix.hpp" />
     <ClInclude Include="Source\Math\Parser.hpp" />
     <ClInclude Include="Source\Math\Vector.hpp" />
@@ -280,8 +280,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Dma\DMA.cpp" />
-    <ClCompile Include="Source\Features\AIMBOT\Aimbot.cpp" />
-    <ClCompile Include="Source\Features\AIMBOT\TrigerBot.cpp" />
+    <ClCompile Include="Source\Features\Aimbot\Aimbot.cpp" />
+    <ClCompile Include="Source\Features\Aimbot\TrigerBot.cpp" />
     <ClCompile Include="Source\Features\ESP\ESP.cpp" />
     <ClCompile Include="Source\Misc\Timer\Timer.cpp" />
     <ClCompile Include="Source\Overlay\Overlay.cpp" />
