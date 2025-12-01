@@ -15,8 +15,8 @@ public:
 public:
     C_BaseEntity() = default;
     
-explicit C_BaseEntity(std::uintptr_t addr)
-    : m_GameSceneNode(std::make_unique<CGameSceneNode>()) {}
+    explicit C_BaseEntity(std::uintptr_t addr)
+      : m_GameSceneNode(std::make_unique<CGameSceneNode>()) {}
 
     ~C_BaseEntity() {
         delete m_GameSceneNode;
