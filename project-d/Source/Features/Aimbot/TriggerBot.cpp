@@ -1,6 +1,6 @@
 #include <Pch.hpp>
 #include <SDK.hpp>
-#include "TrigerBot.hpp"
+#include "TriggerBot.hpp"
 #include <Windows.h>
 
 void TriggerBot::Render(ImDrawList* drawList) {

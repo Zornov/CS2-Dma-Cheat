@@ -438,7 +438,7 @@
     <ClInclude Include="Source\SDK\Objects\C_PlantedC4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Features\Aimbot\TrigerBot.hpp">
+    <ClInclude Include="Source\Features\Aimbot\TriggerBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SDK\Objects\C_BaseEntity.hpp">
@@ -500,7 +500,7 @@
     <ClCompile Include="Source\Features\Aimbot\Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Features\Aimbot\TrigerBot.cpp">
+    <ClCompile Include="Source\Features\Aimbot\TriggerBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

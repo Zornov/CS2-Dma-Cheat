@@ -2,7 +2,7 @@
 
 #include <ESP/ESP.hpp>
 #include <Aimbot/Aimbot.hpp>
-#include <Aimbot/TrigerBot.hpp>
+#include <Aimbot/TriggerBot.hpp>
 
 class Features {
 
