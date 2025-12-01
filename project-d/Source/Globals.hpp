@@ -7,8 +7,8 @@
 #define USE_LOCALHOST 1
 
 inline const Vector3 Screen = {
-	GetSystemMetrics(SM_CXSCREEN),
-	GetSystemMetrics(SM_CYSCREEN)
+	static_cast<float>(GetSystemMetrics(SM_CXSCREEN)),
+	static_cast<float>(GetSystemMetrics(SM_CYSCREEN))
 };
 
 inline const Vector3 ScreenCenter = {
@@ -18,12 +18,12 @@ inline const Vector3 ScreenCenter = {
 
 namespace Globals {
 	inline bool Running = false;
-	inline intptr_t ClientBase = NULL;
+	inline intptr_t ClientBase = 0;
 
-	inline Matrix ViewMatrix;
+	inline Matrix ViewMatrix{};
 };
 
 namespace ProcInfo {
-	inline bool DmaInitialized = NULL;
-	inline bool KmboxInitialized = NULL;
+	inline bool DmaInitialized = false;
+	inline bool KmboxInitialized = false;
 };

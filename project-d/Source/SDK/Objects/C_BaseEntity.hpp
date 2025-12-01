@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <memory>
 #include <Memory/Memory.h>
 #include <cs2/client_dll.hpp>
 #include "CGameSceneNode.hpp"
@@ -10,24 +11,32 @@ protected:
 
 public:
     int m_iTeamNum{};
-    CGameSceneNode* m_GameSceneNode = nullptr;
+    std::unique_ptr<CGameSceneNode> m_GameSceneNode;
 
 public:
     C_BaseEntity() = default;
 
     explicit C_BaseEntity(std::uintptr_t addr)
         : m_Address(addr)
+        , m_GameSceneNode(std::make_unique<CGameSceneNode>())
     {
-        m_GameSceneNode = new CGameSceneNode();
     }
 
-    ~C_BaseEntity() {
-        delete m_GameSceneNode;
-    }
+    // Prevent copying to avoid double-delete
+    C_BaseEntity(const C_BaseEntity&) = delete;
+    C_BaseEntity& operator=(const C_BaseEntity&) = delete;
+
+    // Allow moving
+    C_BaseEntity(C_BaseEntity&&) = default;
+    C_BaseEntity& operator=(C_BaseEntity&&) = default;
+
+    ~C_BaseEntity() = default;
 
     inline std::uintptr_t GetAddress() const { return m_Address; }
 
     virtual void Update() {
+        if (!m_GameSceneNode) return;
+        
         m_GameSceneNode->m_Address = mem->Read<uintptr_t>(
             m_Address + cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode
         );

@@ -9,14 +9,14 @@ class Features {
 public:
 	void Update() {
 		aimbot->Update();
-		triger->Update();
+		triggerBot->Update();
 
 		esp->Update();
 	}
 
 	void Render(ImDrawList* drawList) {
 		aimbot->Render(drawList);
-		triger->Render(drawList);
+		triggerBot->Render(drawList);
 		
 		esp->Render(drawList);
 	}

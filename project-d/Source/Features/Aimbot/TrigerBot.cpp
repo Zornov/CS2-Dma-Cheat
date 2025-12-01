@@ -3,11 +3,11 @@
 #include "TrigerBot.hpp"
 #include <Windows.h>
 
-void TrigerBot::Render(ImDrawList* drawList) {
+void TriggerBot::Render(ImDrawList* drawList) {
     // No rendering needed for TriggerBot
 }
 
-void TrigerBot::Update() {
+void TriggerBot::Update() {
     if (!config->Aim.Trigger)
         return;
 

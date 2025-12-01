@@ -13,17 +13,24 @@ void SDK::Update() {
     if (c4Planted)
         c4Planted->Update();
 
-    Globals::ViewMatrix = mem->Read<Matrix>(
-        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwViewMatrix
-    );
+    if (Globals::ClientBase) {
+        Globals::ViewMatrix = mem->Read<Matrix>(
+            Globals::ClientBase + cs2_dumper::offsets::client_dll::dwViewMatrix
+        );
+    }
 }
 
 void SDK::UpdateObjects() {
+    if (!Globals::ClientBase)
+        return;
+
     uintptr_t c4Addr = mem->Read<uintptr_t>(
         mem->Read<uintptr_t>(Globals::ClientBase + cs2_dumper::offsets::client_dll::dwPlantedC4)
     );
 
-    c4Planted = std::make_unique<C_PlantedC4>(c4Addr);
+    if (c4Addr) {
+        c4Planted = std::make_unique<C_PlantedC4>(c4Addr);
+    }
 }
 
 

@@ -4,11 +4,11 @@
 #include <Timer/Timer.hpp>
 #include <memory>
 
-class TrigerBot {
+class TriggerBot {
 public:
     void Render(ImDrawList* drawList);
 
     void Update();
 };
 
-inline std::unique_ptr<TrigerBot> triger = std::make_unique<TrigerBot>();
+inline std::unique_ptr<TriggerBot> triggerBot = std::make_unique<TriggerBot>();

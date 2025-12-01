@@ -49,8 +49,6 @@ int main() {
         ProcInfo::KmboxInitialized = false;
     }
 
-    ProcInfo::KmboxInitialized = true; // todo: remove
-
     if (!sdk->Init()) {
         LOG_ERROR("Failed to initialize SDK");
         this_thread::sleep_for(chrono::seconds(5));

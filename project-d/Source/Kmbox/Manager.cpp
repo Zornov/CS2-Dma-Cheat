@@ -105,8 +105,6 @@ int KmBoxNetManager::SetConfig(const string& IP, WORD Port)
 	if (this->s_Client <= 0)
 		return err_creat_socket;
 
-	int Status = 0;
-
 	this->PostData.head.indexpts++;
 	this->PostData.head.cmd = cmd_setconfig;
 	this->PostData.head.rand = inet_addr(IP.c_str());
@@ -155,8 +153,6 @@ int KmBoxMouse::Move(int x, int y)
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
-	int Status = 0;
-
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_mouse_move;
 	Kmbox->PostData.head.rand = rand();
@@ -178,8 +174,6 @@ int KmBoxMouse::Move_Auto(int x, int y, int Runtime)
 {
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
-
-	int Status = 0;
 
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_mouse_automove;
@@ -203,8 +197,6 @@ int KmBoxMouse::Left(bool Down)
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
-	int Status = 0;
-
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_mouse_left;
 	Kmbox->PostData.head.rand = rand();
@@ -223,8 +215,6 @@ int KmBoxMouse::Right(bool Down)
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
 
-	int Status = 0;
-
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_mouse_right;
 	Kmbox->PostData.head.rand = rand();
@@ -242,8 +232,6 @@ int KmBoxMouse::Middle(bool Down)
 {
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
-
-	int Status = 0;
 
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_mouse_middle;
@@ -304,8 +292,6 @@ int KmBoxKeyBoard::StartMonitor(WORD Port)
 {
 	if (Kmbox->s_Client <= 0)
 		return err_creat_socket;
-
-	int Status = 0;
 
 	Kmbox->PostData.head.indexpts++;
 	Kmbox->PostData.head.cmd = cmd_monitor;

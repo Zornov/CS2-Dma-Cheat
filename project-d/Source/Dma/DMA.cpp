@@ -8,7 +8,7 @@ bool DMA::Init() {
     }
 
     Globals::ClientBase = mem->GetBaseDaddy(CLIENT_DLL);
-    if (!Globals::ClientBase || Globals::ClientBase == NULL) {
+    if (!Globals::ClientBase) {
         LOG_ERROR("Failed to get ClientBase");
         return false;
     }
