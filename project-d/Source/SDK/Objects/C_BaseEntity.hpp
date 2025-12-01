@@ -10,16 +10,13 @@ protected:
 
 public:
     int m_iTeamNum{};
-    CGameSceneNode* m_GameSceneNode = nullptr;
+    std::unique_ptr<CGameSceneNode> m_GameSceneNode;
 
 public:
     C_BaseEntity() = default;
-
-    explicit C_BaseEntity(std::uintptr_t addr)
-        : m_Address(addr)
-    {
-        m_GameSceneNode = new CGameSceneNode();
-    }
+    
+explicit C_BaseEntity(std::uintptr_t addr)
+    : m_GameSceneNode(std::make_unique<CGameSceneNode>()) {}
 
     ~C_BaseEntity() {
         delete m_GameSceneNode;
