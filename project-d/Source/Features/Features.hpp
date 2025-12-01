@@ -17,18 +17,12 @@ public:
 	void Render(ImDrawList* drawList) {
 		aimbot->Render(drawList);
 		triger->Render(drawList);
+		
 		esp->Render(drawList);
-
 	}
 
 	bool Init() {
-
 		return true;
-	}
-
-	static Features& Get() {
-		static Features instance;
-		return instance;
 	}
 };
 
