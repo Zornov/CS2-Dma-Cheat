@@ -39,3 +39,4 @@ lib/*
 
 # User-specific config files	
 /.json
+_codeql_detected_source_root
