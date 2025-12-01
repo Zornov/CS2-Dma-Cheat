@@ -4,10 +4,17 @@
 #include <cs2/offsets.hpp>
 #include <cs2/client_dll.hpp>
 #include <Objects/C_PlantedC4.hpp>
+#include <Objects/C_BasePlayerPawn.hpp>
+#include <Objects/C_GlobalVars.hpp>
 
 class SDK {
+private:
+    VMMDLL_SCATTER_HANDLE objectScatter = 0;
+
 public:
-    std::unique_ptr<C_PlantedC4> c4Planted;
+    C_GlobalVars* globalVars = nullptr;
+    C_BasePlayerPawn* localPlayerPawn = nullptr;
+    C_PlantedC4* c4Planted = nullptr;
 
 public:
     bool Init();

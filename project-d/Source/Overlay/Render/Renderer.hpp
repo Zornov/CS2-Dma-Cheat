@@ -50,6 +50,50 @@ public:
         drawList->AddLine(pos1, pos2, ImGui::GetColorU32(color), thickness);
     }
 
+    static void DrawRotatedRect(
+        ImDrawList* dl,
+        float cx, float cy,
+        float w, float h,
+        float yawDeg,
+        const ImVec4& color,
+        float thickness = 1.0f
+    ) {
+        float yaw = (yawDeg * 3.14159265f) / 180.0f;
+
+        float cs = cosf(yaw);
+        float sn = sinf(yaw);
+
+        float hw = w * 0.5f;
+        float hh = h * 0.5f;
+
+        ImVec2 pts[4] = {
+            ImVec2(-hw, -hh),
+            ImVec2(hw, -hh),
+            ImVec2(hw,  hh),
+            ImVec2(-hw,  hh)
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+            float x = pts[i].x;
+            float y = pts[i].y;
+
+            pts[i].x = cx + (x * cs - y * sn);
+            pts[i].y = cy + (x * sn + y * cs);
+        }
+
+        dl->AddPolyline(pts, 4, ImGui::GetColorU32(color), true, thickness);
+    }
+
+    static inline ImVec4 RGBA(int r, int g, int b, int a = 255) {
+        return ImVec4(
+            r / 255.f,
+            g / 255.f,
+            b / 255.f,
+            a / 255.f
+        );
+    }
+
     static void DrawHitmarker(ImDrawList* drawList, const ImVec4& color, float length = 10.0f, float thickness = 1.0f) {
         ImVec2 center = ImGui::GetIO().DisplaySize * 0.5f;
 

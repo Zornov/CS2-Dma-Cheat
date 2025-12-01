@@ -447,6 +447,15 @@
     <ClInclude Include="Source\SDK\Objects\CGameSceneNode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\C_BasePlayerPawn.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\C_GlobalVars.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDK\Objects\CPlayer_WeaponServices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Kmbox\Manager.cpp">

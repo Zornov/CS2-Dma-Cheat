@@ -15,9 +15,7 @@ public:
 public:
     C_BaseEntity() = default;
 
-    explicit C_BaseEntity(std::uintptr_t addr)
-        : m_Address(addr)
-    {
+    explicit C_BaseEntity(std::uintptr_t addr) : m_Address(addr) {
         m_GameSceneNode = new CGameSceneNode();
     }
 

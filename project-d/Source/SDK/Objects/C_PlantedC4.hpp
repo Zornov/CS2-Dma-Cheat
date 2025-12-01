@@ -12,6 +12,7 @@ public:
 
     bool m_bBombPlanted{};
     int m_iBombSite{};
+    float m_flC4Blow{};
 
 public:
     C_PlantedC4() = default;
@@ -26,12 +27,8 @@ public:
         );
 
         if (m_bBombPlanted) {
-            m_iBombSite = mem->Read<int>(
-                m_Address + cs2_dumper::schemas::client_dll::C_PlantedC4::m_nBombSite
-            );
-        }
-        else {
-            m_iBombSite = -1;
+            m_iBombSite = mem->Read<int>(m_Address + cs2_dumper::schemas::client_dll::C_PlantedC4::m_nBombSite);
+            m_flC4Blow = mem->Read<float>(m_Address + cs2_dumper::schemas::client_dll::C_PlantedC4::m_flC4Blow);
         }
     }
 };
