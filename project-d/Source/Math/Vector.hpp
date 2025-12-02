@@ -102,6 +102,13 @@ namespace math {
         std::string ToString() const {
             return std::to_string(this->x) + ", " + std::to_string(this->y) + ", " + std::to_string(this->z);
         }
+
+        float Distance(const vector3& in) const {
+            float dx = in.x - x;
+            float dy = in.y - y;
+            float dz = in.z - z;
+            return std::sqrt(dx * dx + dy * dy + dz * dz);
+        }
     };
 
     // Define vector2
@@ -152,6 +159,8 @@ namespace math {
         float Distance(const vector2& in) const {
 			return std::sqrt(std::pow(in.x - x, 2) + std::pow(in.y - y, 2));
 		}
+
+
     };
 
     template<typename T>

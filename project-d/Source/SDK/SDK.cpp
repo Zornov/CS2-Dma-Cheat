@@ -5,51 +5,16 @@
 bool SDK::Init() {
     Globals::Running = true;
 
-    objectScatter = mem->CreateScatterHandle();
-
     return true;
 }
 
 void SDK::Update() {
     UpdateObjects();
 
-    if (globalVars)
-        globalVars->Update();
-
-    if (c4Planted)
-        c4Planted->Update();
-
-    if (localPlayerPawn)
-		localPlayerPawn->Update();
 }
 
 void SDK::UpdateObjects() {
-    uintptr_t localPlayerPtr = 0;
 
-    uintptr_t c4Addr = mem->Read<uintptr_t>(
-        mem->Read<uintptr_t>(Globals::ClientBase + cs2_dumper::offsets::client_dll::dwPlantedC4)
-    );
-
-    c4Planted = new C_PlantedC4(c4Addr);
-
-    mem->AddScatterReadRequest(
-        objectScatter,
-        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwLocalPlayerPawn,
-        &localPlayerPtr
-    );
-
-    uintptr_t globalVarsPtr = mem->Read<uintptr_t>(Globals::ClientBase + cs2_dumper::offsets::client_dll::dwGlobalVars);
-    globalVars = new C_GlobalVars(globalVarsPtr);
-
-    mem->AddScatterReadRequest(
-        objectScatter,
-        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwViewMatrix,
-        &Globals::ViewMatrix
-    );
-
-    mem->ExecuteReadScatter(objectScatter);
-
-    localPlayerPawn = new C_BasePlayerPawn(localPlayerPtr);
 }
 
 bool SDK::WorldToScreen(const Vector3& WorldPos, Vector2& ScreenPos, const Matrix& Matrix) {

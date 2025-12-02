@@ -5,61 +5,80 @@
 #include <sstream>
 #include <iostream>
 
-#include <Objects/C_GlobalVars.hpp>
-#include <Objects/C_BasePlayerPawn.hpp>
-#include <Objects/C_PlantedC4.hpp>
-
 void ESP::Update() {}
 
 void ESP::Render(ImDrawList* drawList) {
-    std::stringstream ss;
+    if (!drawList) return;
 
-    if (sdk->globalVars) {
-        const C_GlobalVars* gv = sdk->globalVars;
-        ss << "GlobalVars:\n"
-            << "  realtime: " << gv->realtime << "\n";
-    }
-
-    if (sdk->localPlayerPawn) {
-        const C_BasePlayerPawn* lp = sdk->localPlayerPawn;
-        const auto& pos = lp->m_vOldOrigin;
-
-        ss << "\nLocalPlayerPawn:\n"
-            << "  Address: 0x" << std::hex << lp->GetAddress() << std::dec << "\n"
-            << "  Origin:  " << pos.x << "  " << pos.y << "  " << pos.z << "\n";
-    }
-
-    if (sdk->c4Planted) {
-        const C_PlantedC4* c4 = sdk->c4Planted;
-
-        ss << "\nPlantedC4:\n"
-            << "  Planted: " << (c4->m_bBombPlanted ? "YES" : "NO") << "\n";
-
-        if (c4->m_bBombPlanted) {
-            const Vector3& pos = c4->m_GameSceneNode->m_vecAbsOrigin;
-
-            const char* siteLetter = (c4->m_iBombSite == 0) ? "A" : "B";
-
-            ss << "  BombSite: " << c4->m_iBombSite << " (" << siteLetter << ")\n"
-                << "  Origin:   " << pos.x << "  " << pos.y << "  " << pos.z << "\n"
-                << "  C4Blow:   " << c4->m_flC4Blow << "\n";
-
-            if (sdk->globalVars) {
-                float timeLeft = c4->m_flC4Blow - sdk->globalVars->realtime;
-                if (timeLeft < 0.f) timeLeft = 0.f;
-                ss << "  Time left: " << timeLeft << "\n";
-            }
-        }
-    }
-
-    std::string debugText = ss.str();
-
-    Renderer::Text(
-        drawList,
-        ScreenCenter.x * 0.75,
-        ScreenCenter.y,
-        0.f, 0.f,
-        debugText,
-        ImVec4(1.f, 1.f, 1.f, 1.f)
+    uintptr_t entityList = mem->Read<uintptr_t>(
+        Globals::ClientBase + cs2_dumper::offsets::client_dll::dwEntityList
     );
+    if (!entityList)
+        return;
+
+    uintptr_t listEntryBase = mem->Read<uintptr_t>(entityList + 0x10);
+    if (!listEntryBase)
+        return;
+
+    const int maxPlayers = 64;
+
+    for (int i = 0; i < maxPlayers; ++i) {
+
+        uintptr_t controller = mem->Read<uintptr_t>(listEntryBase + (i + 1) * 0x70);
+        if (!controller)
+            continue;
+
+        uint32_t pawnHandle = 0;
+        if (!mem->Read(controller + cs2_dumper::schemas::client_dll::CBasePlayerController::m_hPawn,
+            &pawnHandle, sizeof(pawnHandle)))
+            continue;
+        if (!pawnHandle)
+            continue;
+
+        int seg = (pawnHandle & 0x7FFF) >> 9;
+        int ent = (pawnHandle & 0x1FF);
+
+        uintptr_t pawnSegment = mem->Read<uintptr_t>(entityList + 0x10 + seg * 8);
+        if (!pawnSegment)
+            continue;
+
+        uintptr_t pawn = mem->Read<uintptr_t>(pawnSegment + ent * 0x70);
+        if (!pawn)
+            continue;
+
+        uintptr_t gameSceneNode = mem->Read<uintptr_t>(
+            pawn + cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode
+        );
+        if (!gameSceneNode)
+            continue;
+
+        Vector3 pos{};
+        if (!mem->Read(gameSceneNode + cs2_dumper::schemas::client_dll::CGameSceneNode::m_vecAbsOrigin,
+            &pos, sizeof(pos)))
+            continue;
+
+        if (!std::isfinite(pos.x) || !std::isfinite(pos.y) || !std::isfinite(pos.z))
+            continue;
+
+        Vector2 screen;
+        if (!sdk->WorldToScreen(pos, screen))
+            continue;
+
+        char nameBuf[64] = { 0 };
+        auto nameOffset = cs2_dumper::schemas::client_dll::CBasePlayerController::m_iszPlayerName;
+        if (nameOffset && !mem->Read(controller + nameOffset, nameBuf, sizeof(nameBuf)))
+            nameBuf[0] = '\0';
+
+        uint64_t steamID = 0;
+        mem->Read(controller + cs2_dumper::schemas::client_dll::CBasePlayerController::m_steamID,
+            &steamID, sizeof(steamID));
+
+        std::string text = std::format("[{}] {}", i, nameBuf[0] ? nameBuf : "unknown");
+
+        drawList->AddText(
+            ImVec2(screen.x, screen.y),
+            IM_COL32(255, 255, 255, 255),
+            text.c_str()
+        );
+    }
 }

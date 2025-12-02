@@ -249,11 +249,7 @@
     <ClInclude Include="Source\Misc\Exception.hpp" />
     <ClInclude Include="Source\Pch\Pch.hpp" />
     <ClInclude Include="Source\SDK\Objects\CGameSceneNode.hpp" />
-    <ClInclude Include="Source\SDK\Objects\CPlayer_WeaponServices.hpp" />
     <ClInclude Include="Source\SDK\Objects\C_BaseEntity.hpp" />
-    <ClInclude Include="Source\SDK\Objects\C_BasePlayerPawn.hpp" />
-    <ClInclude Include="Source\SDK\Objects\C_GlobalVars.hpp" />
-    <ClInclude Include="Source\SDK\Objects\C_PlantedC4.hpp" />
     <ClInclude Include="Source\SDK\SDK.hpp" />
     <ClInclude Include="Source\Socket\Socket.hpp" />
   </ItemGroup>
