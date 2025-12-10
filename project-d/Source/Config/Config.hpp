@@ -12,10 +12,10 @@ namespace Config {
         bool Init() {
             Aim.AimbotFovColor = ImVec4(255, 255, 255, 255);
 
-            Kmbox.Enabled = false;
-            Kmbox.Ip = "127.0.0.1";
-            Kmbox.Port = 6969;
-            Kmbox.Uuid = "00000000-0000-0000-0000-000000000000";
+            Kmbox.Enabled = true;
+            Kmbox.Ip = "192.168.2.188";
+            Kmbox.Port = 61697;
+            Kmbox.Uuid = "FF313CAB";
 
             Visuals.Enabled = true;
             Visuals.TeamCheck = false;

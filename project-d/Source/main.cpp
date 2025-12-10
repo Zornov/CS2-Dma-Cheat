@@ -1,5 +1,6 @@
 ﻿#include <Pch.hpp>
 
+#include <Kmbox/Resources.hpp>
 #include <Features.hpp>
 #include <Overlay.hpp>
 
@@ -38,18 +39,15 @@ int main() {
     if (config->Kmbox.Enabled) {
         if (Kmbox->InitDevice(config->Kmbox.Ip, config->Kmbox.Port, config->Kmbox.Uuid) == 0) {
             ProcInfo::KmboxInitialized = true;
-        }
-        else {
+            Kmbox->ChangePicture(KmboxResources::GetProductImage());
+        } else {
             LOG_ERROR("Failed to initialize KMBOX");
             std::this_thread::sleep_for(std::chrono::seconds(5));
             return 1;
         }
-    }
-    else {
+    } else {
         ProcInfo::KmboxInitialized = false;
     }
-
-    ProcInfo::KmboxInitialized = true; // todo: remove
 
     if (!sdk->Init()) {
         LOG_ERROR("Failed to initialize SDK");
