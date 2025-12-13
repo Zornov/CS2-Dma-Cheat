@@ -1,44 +1,46 @@
 #pragma once
+
 #include <imgui/imgui.h>
 #include <string>
+#include <memory>
 
-namespace Structs{
+namespace Structs {
+
     struct KmboxConfig {
-        bool Enabled;
-        std::string Ip;
-        unsigned short Port;
-        std::string Uuid;
+        bool Enabled = false;
+        std::string Ip = "192.168.2.188";
+        unsigned short Port = 61697;
+        std::string Uuid = "FF313CAB";
     };
 
     struct AimConfig {
-        bool Trigger;
-        int TriggerKey;
-        int TriggerKeyMode;
-        int TriggerDelay;
+        bool Trigger = false;
+        int TriggerKey = 0;
+        int TriggerKeyMode = 0;
+        int TriggerDelay = 0;
 
-        bool Aimbot;
+        bool Aimbot = false;
 
-        bool DrawFov;
-        ImVec4 AimbotFovColor;
+        bool DrawFov = false;
+        ImVec4 AimbotFovColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-        bool AimFriendly;
-        bool AimVisible;
+        bool AimFriendly = false;
+        bool AimVisible = true;
 
-        int AimbotKey;
-        int AimbotKeyMode;
-        float AimbotFov;
-        float AimbotSmooth;
+        int AimbotKey = 0;
+        int AimbotKeyMode = 0;
+        float AimbotFov = 90.0f;
+        float AimbotSmooth = 0.5f;
     };
 
     struct VisualsConfig {
-        bool Enabled;
-        bool TeamCheck;
-        bool VisibleCheck;
-
-        bool Background;
+        bool Enabled = true;
+        bool TeamCheck = false;
+        bool VisibleCheck = false;
+        bool Background = false;
     };
 
     struct MiscConfig {
-        bool VSync;
+        bool VSync = false;
     };
 }

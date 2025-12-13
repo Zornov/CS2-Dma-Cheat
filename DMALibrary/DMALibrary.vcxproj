@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="libs\leechcore.h" />
+    <ClInclude Include="libs\vmmdll.h" />
     <ClInclude Include="Memory\InputManager.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Memory\Registry.h" />

@@ -11,7 +11,7 @@ KmBoxNetManager::~KmBoxNetManager()
 	}
 }
 
-int KmBoxNetManager::InitDevice(const string& IP, WORD Port, const string& Mac)
+int KmBoxNetManager::InitDevice(const string& IP, WORD Port, const string& Mac) 
 {
 	WORD wVersionRequested = MAKEWORD(1, 1);
 	WSADATA wsaData;	

@@ -36,6 +36,12 @@
     <ClInclude Include="nt\structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="libs\leechcore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\vmmdll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

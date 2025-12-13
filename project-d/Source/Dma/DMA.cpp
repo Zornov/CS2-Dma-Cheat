@@ -6,6 +6,7 @@ bool DMA::Init() {
         LOG_ERROR("Failed to initialize DMA");
         return false;
     }
+	int errors = 0;
 
     Globals::ClientBase = mem->GetBaseDaddy(CLIENT_DLL);
     if (!Globals::ClientBase || Globals::ClientBase == NULL) {
@@ -14,10 +15,15 @@ bool DMA::Init() {
     }
 
     if (!mem->GetKeyboard()->InitKeyboard()) {
+        errors++;
         LOG_ERROR("Failed to initialize DMA keyboard (continuing without keyboard support)");
     }
 
-    LOG_INFO("DMA successfully initialized");
+    if (errors > 0) {
+        LOG_WARN("DMA initialized with {} errors", errors);
+    } else {
+		LOG_INFO("DMA initialized successfully");
+    }
 
     ProcInfo::DmaInitialized = true;
     return true;

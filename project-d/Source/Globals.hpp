@@ -24,6 +24,6 @@ namespace Globals {
 };
 
 namespace ProcInfo {
-	inline bool DmaInitialized = NULL;
-	inline bool KmboxInitialized = NULL;
+	inline bool DmaInitialized = false;
+	inline bool KmboxInitialized = false;
 };

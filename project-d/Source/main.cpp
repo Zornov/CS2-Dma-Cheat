@@ -1,8 +1,8 @@
 ﻿#include <Pch.hpp>
 
-#include <Kmbox/Resources.hpp>
 #include <Features.hpp>
 #include <Overlay.hpp>
+#include <Kmbox/Resources.hpp>
 
 int main() {
     SetConsoleTitleA("Console - Debug");
@@ -39,7 +39,6 @@ int main() {
     if (config->Kmbox.Enabled) {
         if (Kmbox->InitDevice(config->Kmbox.Ip, config->Kmbox.Port, config->Kmbox.Uuid) == 0) {
             ProcInfo::KmboxInitialized = true;
-            Kmbox->ChangePicture(KmboxResources::GetProductImage());
         } else {
             LOG_ERROR("Failed to initialize KMBOX");
             std::this_thread::sleep_for(std::chrono::seconds(5));

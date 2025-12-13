@@ -510,10 +510,7 @@ void Overlay::RenderMenu() {
 
 				}
 				ImGui::EndChild();
-			}
-
-			else if (m_iSelectedPage == MenuPage_Misc)
-			{
+			} else if (m_iSelectedPage == MenuPage_Misc) {
 				ImGui::BeginChild("Misc", ImVec2(fGroupWidth,
 					ImGui::GetFrameHeight() + // MenuBar
 					style.WindowPadding.y * 2 + // child padding
@@ -526,9 +523,7 @@ void Overlay::RenderMenu() {
 						ImAdd::CheckBox("Misc##Enable", &config->Visuals.Enabled);
 						ImGui::EndMenuBar();
 					}
-					if (true) {
-
-					}
+					
 
 					ImAdd::SeparatorText("General");
 
@@ -536,10 +531,7 @@ void Overlay::RenderMenu() {
 
 				}
 				ImGui::EndChild();
-			}
-
-			else if (m_iSelectedPage == MenuPage_Info)
-			{
+			} else if (m_iSelectedPage == MenuPage_Info) {
 				ImGui::BeginChild("Info", ImVec2(0, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_MenuBar);
 				{
 					if (ImGui::BeginMenuBar()) {
@@ -557,32 +549,8 @@ void Overlay::RenderMenu() {
 					ImGui::SameLine();
 					ImGui::TextColored(ProcInfo::KmboxInitialized ? ImVec4(0, 1, 0, 1)/* green */: ImVec4(1, 0, 0, 1)/* red */, "%s", ProcInfo::KmboxInitialized ? "Connected" : "Disconnected");
 
-					ImAdd::SeparatorText("Game");
-
-					ImGui::Text("Client:");
-					ImGui::SameLine();
-					ImGui::Text("0x%llx", Globals::ClientBase);
-
 					ImAdd::SeparatorText("Cheat");
-
 					ImGui::Text("Overlay FPS: %.2f", OverlayFps);
-
-					float buttonWidth = 100.0f;
-					float buttonSpacing = 20.0f;
-					ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 2 * buttonWidth - buttonSpacing) / 2);
-
-					if (ImAdd::Button("Open folder", ImVec2(buttonWidth, 0)))
-					{
-						ShellExecuteA(nullptr, "open", "explorer.exe", ".\\", nullptr, SW_SHOW);
-					}
-
-					ImGui::SameLine();
-
-					if (ImAdd::Button("Unload", ImVec2(buttonWidth, 0)))
-					{
-						Globals::Running = false;
-						shouldRun = false;
-					}
 				}
 				ImGui::EndChild();
 			}
